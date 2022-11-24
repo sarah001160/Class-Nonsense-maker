@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="廢話生成器 class教學實作">
+	<title>Class Practice!</title>
+</head>
+<style>
+	p{
+		display:block;
+		width:100%;
+		height:100%;
+		
+	}
+</style>
+<body>
+	<input type="text">
+	<button class="button_1st">一級廢話生成器</button>
+	<button class="button_2nd">二級廢話生成器</button>
+	<p></p>
+
+
+
+
+<script>
+//https://www.youtube.com/watch?v=7DfannMks7c&list=LL&index=6
+//請從9:45繼續觀看
+//10.20完成了
+
+	const input = document.querySelector('input'),
+	button_1st = document.querySelector('.button_1st'),
+	button_2nd = document.querySelector('.button_2nd'),
+	p = document.querySelector('p');
+
+
+	class Bullshit{
+		static welcome_tips () {
+			return '溫馨提示:您這是在說廢話';
+		}
+		static welcome (){
+			p.innerHTML= this.welcome_tips();//靜態方法裡調用另一個靜態方法是可以用this 這裡適用類調用,千萬不要用實例去調用靜態方法
+		}
+		constructor(text, color){
+			this.text = text;
+			this.color = color;
+		}
+		show(){
+			p.innerHTML= this.text +input.value;
+			p.style.color = this.color; 
+		}
+		set extra (value){
+			this.value = value;
+			p.innerHTML += this.value;
+		}
+		get extra(){
+			return `這些是廢話: ${this.text},${this.value}`;
+		}
+	 }
+	
+
+	class Son_of_Bullshit extends Bullshit{ //子類用extends+父類
+	 	constructor(text, color, fontSize){
+			//子類constructor，前super後this
+			super(text, color);//調用父類參數
+			this.fontSize = fontSize;
+		}
+		show(){
+			p.innerHTML = this.text + p.innerHTML;//直接擷取原本生成的內容
+			p.style.color = this.color;
+			p.style.fontSize = this.fontSize;
+		}
+	 }
+
+
+	 button_1st.addEventListener('click',()=>{
+	 	const bullshit = new Bullshit('我知道','#00a1d6');
+	 	bullshit.show();
+	 	bullshit.extra = 'ㄦ';
+	 	console.log(bullshit.extra);
+
+	 })
+	
+	 button_2nd.addEventListener('click',()=>{
+	 	const son_of_bullshit = new Son_of_Bullshit('你知道','#f85b88','50px')
+	 	son_of_bullshit.show();
+	 })
+
+
+p.addEventListener('click',()=>{
+	Bullshit.welcome();
+})
+
+
+</script>
+</body>
+</html>
